@@ -1,4 +1,6 @@
-# <img src="https://gitpfp.wav.blue/pfp?mag=0.3&name=github-pfp"> github-pfp
+<img src="https://gitpfp.wav.blue/pfp?mag=2&name=github-pfp">
+
+# github-pfp
 An attempt to replicate GitHub's default profile pictures in under 100 lines (excluding junk) using Fastify and Canvas
 
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=installation"> Installation
@@ -13,6 +15,9 @@ Go to the root of the server (default: `localhost:3000`) for usage instructions 
 - `mag` - Image magnification of the output image
 - `wh` - Width and Height value of the output image
 - `colour` - Hexadecimal colour code for the pixels of the output image (Without `#`, e.g. `?colour=e8c8e8`)
+
+> **Note**:
+> For the best output, make sure `mag` and `wh` are even numbers (like `20` not `27`, `39`, `15.323421` etc)
 
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=examples"> Examples
 <img src="https://gitpfp.wav.blue/pfp?mag=1"> (`gitpfp.wav.blue/pfp?mag=1`)
