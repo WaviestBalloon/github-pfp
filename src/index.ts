@@ -52,6 +52,9 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // 
 	let height = (wh * mag) / blockSize;
 	console.log(width, height);
 
+	if (wh * mag > 10000) {
+		reply.code(400).send("Width/Height and/or Magnification collectively exceeds 10000 pixels (Try lowering your magnification or width/height, or both)");
+	}
 	let canvas = null;
 	try {
 		canvas = new Canvas(wh * mag, wh * mag);
