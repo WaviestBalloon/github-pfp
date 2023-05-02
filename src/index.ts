@@ -2,16 +2,19 @@ import fastify, { FastifyRequest, FastifyReply } from "fastify";
 import { Canvas } from "canvas";
 import { createHash } from "crypto";
 import { readFileSync } from "fs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const nameList = readFileSync(join(__dirname, `../fillernames.txt`), "utf-8").split("\n");
 const server = fastify({ logger: false });
 
 function toBinary(str: string) {
 	let result = "";
-	// binary spaced out
 	for (let i = 0; i < str.length; i++) {
 		result += str.charCodeAt(i).toString(2) + " ";
 	}
-
 	return result.slice(0, -1);
 }
 
@@ -19,7 +22,7 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // 
 	let startTimer = Date.now();
 	let query = request.query as any;
 	if (query?.name === undefined) query.name = Math.random().toString(36).substring(7);
-	console.log(query.name);
+	console.log(query);
 
 	let mag = query?.mag ?? 10;
 	if (mag > 100) {
@@ -91,7 +94,6 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // 
 });
 
 server.get("/", async (request: FastifyRequest, reply: FastifyReply) => {
-	let nameList = readFileSync(`../names.txt`, "utf-8").split("\n");
 	let randomName = nameList[Math.floor(Math.random() * nameList.length)];
 	let randomMag = Math.floor(Math.random() * 10) + 1;
 	let randomWh = Math.floor(Math.random() * 30) + 1;
