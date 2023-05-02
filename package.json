@@ -1,0 +1,20 @@
+{
+	"name": "github-pfp",
+	"version": "1.0.0",
+	"description": "An attempt to replicate GitHub's default profile pictures",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"canvas": "^2.11.2",
+		"fastify": "^4.17.0"
+	},
+	"devDependencies": {
+		"@types/node": "^18.16.1",
+		"typescript": "^5.0.4"
+	},
+	"type": "module",
+	"main": "dist/index.js"
+}
