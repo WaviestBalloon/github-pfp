@@ -20,9 +20,12 @@ Go to the root of the server (default: `localhost:3000`) for usage instructions 
 > For the best output, make sure `mag` and `wh` are even numbers (like `20` not `27`, `39`, `15.323421` etc)
 
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=examples"> Examples
-<img src="https://gitpfp.wav.blue/pfp?mag=1"> (`gitpfp.wav.blue/pfp?mag=1`)
-<img src="https://gitpfp.wav.blue/pfp?mag=1&wh=50"> (`gitpfp.wav.blue/pfp?mag=1&wh=50`)
-<img src="https://gitpfp.wav.blue/pfp?mag=1&wh=100"> (`gitpfp.wav.blue/pfp?mag=1&wh=100`)
+| Output                                                   | Request                                |
+| -------------------------------------------------------- | -------------------------------------- |
+| <img src="https://gitpfp.wav.blue/pfp?mag=1">            | `gitpfp.wav.blue/pfp?mag=1`            |
+| <img src="https://gitpfp.wav.blue/pfp?mag=1&wh=50">      | `gitpfp.wav.blue/pfp?mag=1&wh=50`      |
+| <img src="https://gitpfp.wav.blue/pfp?mag=1&wh=100">     | `gitpfp.wav.blue/pfp?mag=1&wh=100`     |
+| <img src="https://gitpfp.wav.blue/pfp?mag=1&name=meow">  | `gitpfp.wav.blue/pfp?mag=1&name=meow`  |
 
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=resources"> Resources
 - GitHub for really cool profile pictures
