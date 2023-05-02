@@ -10,10 +10,14 @@ const __dirname = dirname(__filename);
 const nameList = readFileSync(join(__dirname, `../fillernames.txt`), "utf-8").split("\n");
 const server = fastify({ logger: false });
 let portNumber = 3000;
+let cacheRemovalTimer = 285000;
+let cache: { query: any, buffer: Buffer; }[] = [];
 process.argv.forEach((val, index) => {
 	if (index < 2) return;
-	if (val === "--port") {
-		portNumber = parseInt(process.argv[index + 1]);
+	switch (val) {
+		case "--port": portNumber = parseInt(process.argv[index + 1]);
+		case "--cache-removal-timer": cacheRemovalTimer = parseInt(process.argv[index + 1]);
+		default: return;
 	}
 });
 
@@ -28,6 +32,12 @@ function toBinary(str: string) {
 server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // TODO: caching rendered images
 	let startTimer = Date.now();
 	let query = request.query as any;
+	for (let i = 0; i < cache.length; i++) {
+		if (JSON.stringify(cache[i].query) === JSON.stringify(query)) {
+			console.log(`Found ${query?.name} in cache - ${cache.length} items remaining in cache`);
+			return reply.header("Content-Type", "image/png").header("X-Completed-In", Date.now() - startTimer).header("X-Returned-Cache", true).send(cache[i].buffer);
+		}
+	}
 	if (query?.name === undefined) query.name = Math.random().toString(36).substring(7);
 	console.log(query);
 
@@ -65,15 +75,13 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // 
 	const ctx = canvas.getContext("2d");
 	ctx.fillStyle = "#000000";
 	
-	let hash = createHash("md5").update(query.name).digest("hex")
+	let hash = createHash("md5").update(query.name).digest("hex");
 	let binary = toBinary(hash).split(" ");
 	let binaryNoSpace = binary.join("");
 	let binaryArray = [];
 	for (let i = 0; i < binaryNoSpace.length; i++) {
 		binaryArray.push(binaryNoSpace[i]);
 	}
-	console.log(binary);
-	console.log(binaryNoSpace);
 	console.log(binaryArray);
 
 	if (colour === null) {
@@ -88,17 +96,27 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // 
 	for (let i = 0; i < height * (width / 2); i++) { // draw pixels
 		if (binaryArray[i] === "1") {
 			ctx.fillRect(
-				(i % (width / 2)) * blockSize, Math.floor(i / (width / 2)) * blockSize, 
+				(i % (width / 2)) * blockSize, Math.floor(i / (width / 2)) * blockSize,
 				blockSize, blockSize
 			);
 			ctx.fillRect(
-				(width - 1 - (i % (width / 2))) * blockSize, Math.floor(i / (width / 2)) * blockSize, 
+				(width - 1 - (i % (width / 2))) * blockSize, Math.floor(i / (width / 2)) * blockSize,
 				blockSize, blockSize
 			);
 		}
 	}
 
 	const buffer = canvas.toBuffer();
+	cache.push({ query: query, buffer: buffer });
+	setTimeout(() => {
+		for (let i = 0; i < cache.length; i++) {
+			if (cache[i].query === query) {
+				cache.splice(i, 1);
+				break;
+			}
+		}
+		console.log(`Removed ${query?.name} from cache - ${cache.length} items remaining in cache`);
+	}, cacheRemovalTimer);
 	console.log(`Completed in ${Date.now() - startTimer}ms`);
 	reply.header("Content-Type", "image/png").header("X-Completed-In", Date.now() - startTimer).send(buffer);
 });
@@ -107,11 +125,9 @@ server.get("/", async (request: FastifyRequest, reply: FastifyReply) => {
 	let randomName = nameList[Math.floor(Math.random() * nameList.length)];
 	let randomMag = Math.floor(Math.random() * 10) + 1;
 	let randomWh = Math.floor(Math.random() * 80) + 30;
-
 	let example;
 	if (Math.floor(Math.random() * 2) === 1) {
-		let randomColour = Math.floor(Math.random() * 16777215).toString(16);
-		example = `/pfp?name=${randomName}&mag=${randomMag}&wh=${randomWh}&colour=${randomColour}`;
+		example = `/pfp?name=${randomName}&mag=${randomMag}&wh=${randomWh}&colour=${Math.floor(Math.random() * 16777215).toString(16)}`;
 	} else {
 		example = `/pfp?name=${randomName}&mag=${randomMag}&wh=${randomWh}`;
 	}
