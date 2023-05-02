@@ -1,3 +1,3 @@
 rm -rf dist
 npx tsc
-node .
+node . --port 3000

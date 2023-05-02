@@ -9,6 +9,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const nameList = readFileSync(join(__dirname, `../fillernames.txt`), "utf-8").split("\n");
 const server = fastify({ logger: false });
+let portNumber = 3000;
+process.argv.forEach((val, index) => {
+	if (index < 2) return;
+	if (val === "--port") {
+		portNumber = parseInt(process.argv[index + 1]);
+	}
+});
 
 function toBinary(str: string) {
 	let result = "";
@@ -116,7 +123,7 @@ server.get("/", async (request: FastifyRequest, reply: FastifyReply) => {
 		}
 	});
 });
-server.listen({ port: 3000, host: "0.0.0.0" }, (err, address) => {
+server.listen({ port: portNumber, host: "0.0.0.0" }, (err, address) => {
 	if (err) throw err;
 	console.log(`Server listening on ${address}`);
 });
