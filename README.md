@@ -1,7 +1,5 @@
-<img src="https://gitpfp.wav.blue/pfp?mag=1"> <img src="https://gitpfp.wav.blue/pfp?mag=1&wh=50"> <img src="https://gitpfp.wav.blue/pfp?mag=1&wh=100">
-
-# <img src="https://gitpfp.wav.blue/pfp?mag=0.5&name=github-pfp"> github-pfp
-An attempt to replicate GitHub's default profile pictures in under 100 lines (excluding junk)
+# <img src="https://gitpfp.wav.blue/pfp?mag=0.3&name=github-pfp"> github-pfp
+An attempt to replicate GitHub's default profile pictures in under 100 lines (excluding junk) using Fastify and Canvas
 
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=installation"> Installation
 1. Clone the repository
@@ -10,6 +8,16 @@ An attempt to replicate GitHub's default profile pictures in under 100 lines (ex
 
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=usage"> Usage
 Go to the root of the server (default: `localhost:3000`) for usage instructions after running the server
+
+- `name` - The text to base the profile picture on
+- `mag` - Image magnification of the output image
+- `wh` - Width and Height value of the output image
+- `colour` - Hexadecimal colour code for the pixels of the output image (Without `#`, e.g. `?colour=e8c8e8`)
+
+## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=examples"> Examples
+<img src="https://gitpfp.wav.blue/pfp?mag=1"> (`gitpfp.wav.blue/pfp?mag=1`)
+<img src="https://gitpfp.wav.blue/pfp?mag=1&wh=50"> (`gitpfp.wav.blue/pfp?mag=1&wh=50`)
+<img src="https://gitpfp.wav.blue/pfp?mag=1&wh=100"> (`gitpfp.wav.blue/pfp?mag=1&wh=100`)
 
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=resources"> Resources
 - GitHub for really cool profile pictures
