@@ -96,7 +96,7 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // 
 server.get("/", async (request: FastifyRequest, reply: FastifyReply) => {
 	let randomName = nameList[Math.floor(Math.random() * nameList.length)];
 	let randomMag = Math.floor(Math.random() * 10) + 1;
-	let randomWh = Math.floor(Math.random() * 30) + 1;
+	let randomWh = Math.floor(Math.random() * 80) + 30;
 
 	let example;
 	if (Math.floor(Math.random() * 2) === 1) {
