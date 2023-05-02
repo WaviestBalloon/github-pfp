@@ -15,7 +15,7 @@ function toBinary(str: string) {
 	return result.slice(0, -1);
 }
 
-server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => {
+server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // TODO: caching rendered images
 	let startTimer = Date.now();
 	let query = request.query as any;
 	if (query?.name === undefined) query.name = Math.random().toString(36).substring(7);
@@ -26,10 +26,10 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => {
 		reply.code(400).send("Magnification cannot be greater than 100");
 	}
 	let wh = query?.wh ?? 30;
-	wh *= 2;
 	if (wh > 200) {
 		reply.code(400).send("The amount of Pixels for Width/height cannot be greater than 200"); // after 200, the output data is too small to fill the output image
 	}
+	wh *= 2;
 	let colour = query?.colour ?? null;
 	if (colour !== null) {
 		if (colour.length !== 6) {
@@ -114,7 +114,7 @@ server.get("/", async (request: FastifyRequest, reply: FastifyReply) => {
 		}
 	});
 });
-server.listen({ port: 3535, host: "0.0.0.0" }, (err, address) => {
+server.listen({ port: 3000, host: "0.0.0.0" }, (err, address) => {
 	if (err) throw err;
 	console.log(`Server listening on ${address}`);
 });
