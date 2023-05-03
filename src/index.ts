@@ -43,17 +43,17 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // 
 
 	let mag = query?.mag ?? 10;
 	if (mag > 100) {
-		reply.code(400).send("Magnification cannot be greater than 100");
+		return reply.code(400).send("Magnification cannot be greater than 100");
 	}
-	let wh = query?.wh ?? 30;
+	let wh = query?.wh ?? 60;
 	if (wh > 200) {
-		reply.code(400).send("The amount of Pixels for Width/height cannot be greater than 200"); // after 200, the output data is too small to fill the output image
+		return reply.code(400).send("The amount of Pixels for Width/height cannot be greater than 200"); // after 200, the output data is too small to fill the output image
 	}
-	wh *= 2;
+	//wh *= 2;
 	let colour = query?.colour ?? null;
 	if (colour !== null) {
 		if (colour.length !== 6) {
-			reply.code(400).send("Colour must be 6 characters long (Hexadecimal format, eg. e8c8e8)");
+			return reply.code(400).send("Colour must be 6 characters long (Hexadecimal format, eg. e8c8e8)");
 		}
 	}
 
@@ -63,14 +63,14 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // 
 	console.log(width, height);
 
 	if (wh * mag > 10000) {
-		reply.code(400).send("Width/Height and/or Magnification collectively exceeds 10000 pixels (Try lowering your magnification or width/height, or both)");
+		return reply.code(400).send(`Width/Height and/or Magnification collectively exceeds 10000 pixels (${wh * mag}) (Try lowering your magnification or width/height, or both)`);
 	}
 	let canvas = null;
 	try {
 		canvas = new Canvas(wh * mag, wh * mag);
 	} catch (err) {
 		console.error(err);
-		reply.code(400).send("Could not create canvas, check your magnification and width/height");
+		return reply.code(400).send("Could not create canvas, check your magnification and width/height");
 	}
 	const ctx = canvas.getContext("2d");
 	ctx.fillStyle = "#000000";
@@ -120,7 +120,6 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // 
 	console.log(`Completed in ${Date.now() - startTimer}ms`);
 	reply.header("Content-Type", "image/png").header("X-Completed-In", Date.now() - startTimer).send(buffer);
 });
-
 server.get("/", async (request: FastifyRequest, reply: FastifyReply) => {
 	let randomName = nameList[Math.floor(Math.random() * nameList.length)];
 	let randomMag = Math.floor(Math.random() * 10) + 1;
@@ -142,6 +141,7 @@ server.get("/", async (request: FastifyRequest, reply: FastifyReply) => {
 		}
 	});
 });
+
 server.listen({ port: portNumber, host: "0.0.0.0" }, (err, address) => {
 	if (err) throw err;
 	console.log(`Server listening on ${address}`);
