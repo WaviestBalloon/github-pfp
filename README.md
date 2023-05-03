@@ -11,6 +11,8 @@ An attempt to replicate GitHub's default profile pictures in under 100 lines (ex
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=usage"> Usage
 Go to the root of the server (default: `localhost:3000`) for usage instructions after running the server
 
+Just using `/pfp` (like: http://gitpfp.wav.blue/pfp ) without any parameters will generate a random string with 60 `wh` (6 pixels across and down) and 10 magnification
+
 - `name` - The text to base the profile picture on
 - `mag` - Image magnification of the output image
 - `wh` - Width and Height value of the output image
@@ -23,8 +25,8 @@ Go to the root of the server (default: `localhost:3000`) for usage instructions 
 | Output                                                   | Request                                |
 | -------------------------------------------------------- | -------------------------------------- |
 | <img src="https://gitpfp.wav.blue/pfp?mag=1">            | `gitpfp.wav.blue/pfp?mag=1`            |
-| <img src="https://gitpfp.wav.blue/pfp?mag=1&wh=50">      | `gitpfp.wav.blue/pfp?mag=1&wh=50`      |
 | <img src="https://gitpfp.wav.blue/pfp?mag=1&wh=100">     | `gitpfp.wav.blue/pfp?mag=1&wh=100`     |
+| <img src="https://gitpfp.wav.blue/pfp?mag=1&wh=200">     | `gitpfp.wav.blue/pfp?mag=1&wh=200`     |
 | <img src="https://gitpfp.wav.blue/pfp?mag=1&name=meow">  | `gitpfp.wav.blue/pfp?mag=1&name=meow`  |
 
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=resources"> Resources
