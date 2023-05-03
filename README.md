@@ -3,12 +3,12 @@
 # github-pfp
 An attempt to replicate GitHub's default profile pictures in under 100 lines (excluding junk) using Fastify and Canvas
 
-## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=installation"> Installation
+## <img src="https://gitpfp.wav.blue/pfp?mag=0.3&name=installation"> Installation
 1. Clone the repository
 2. Run `npm i` to install dependencies
 3. Run `./start.sh` to transpile and start the server
 
-## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=usage"> Usage
+## <img src="https://gitpfp.wav.blue/pfp?mag=0.3&name=usage"> Usage
 Go to the root of the server (default: `localhost:3000`) for usage instructions after running the server
 
 Just using `/pfp` (like: http://gitpfp.wav.blue/pfp ) without any parameters will generate a random string with 60 `wh` (6 pixels across and down) and 10 magnification
@@ -21,7 +21,7 @@ Just using `/pfp` (like: http://gitpfp.wav.blue/pfp ) without any parameters wil
 > **Note**:
 > For the best output, make sure `mag` and `wh` are even numbers (like `20` not `27`, `39`, `15.323421` etc)
 
-## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=examples"> Examples
+## <img src="https://gitpfp.wav.blue/pfp?mag=0.3&name=examples"> Examples
 | Output                                                   | Request                                |
 | -------------------------------------------------------- | -------------------------------------- |
 | <img src="https://gitpfp.wav.blue/pfp?mag=1">            | `gitpfp.wav.blue/pfp?mag=1`            |
@@ -29,7 +29,7 @@ Just using `/pfp` (like: http://gitpfp.wav.blue/pfp ) without any parameters wil
 | <img src="https://gitpfp.wav.blue/pfp?mag=1&wh=200">     | `gitpfp.wav.blue/pfp?mag=1&wh=200`     |
 | <img src="https://gitpfp.wav.blue/pfp?mag=1&name=meow">  | `gitpfp.wav.blue/pfp?mag=1&name=meow`  |
 
-## <img src="https://gitpfp.wav.blue/pfp?mag=0.2&name=resources"> Resources
+## <img src="https://gitpfp.wav.blue/pfp?mag=0.3&name=resources"> Resources
 - GitHub for really cool profile pictures
 - GitHub Co-Pilot for holding my hand with the super complex mathamatical stuff
 - [United States Naval Academy](https://www.usna.edu/Users/cs/roche/courses/s15si335/proj1/files.php%3Ff=names.txt.html) for the name list sample (`fillernames.txt`)
