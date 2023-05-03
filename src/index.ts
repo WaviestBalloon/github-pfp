@@ -28,8 +28,8 @@ process.argv.forEach((val, index) => {
 
 if (enableMultiThread && cluster.isPrimary) {
 	cluster.setupPrimary({ exec: join(__dirname, "worker.js") });
-	//cluster.on("online", (worker) => { console.log(`Worker ${worker.id} is online`); });
-	cluster.on("exit", (worker, code, signal) => { console.log(`Worker ${worker.id} exited with code ${code} and signal ${signal}`); });
+	cluster.on("online", (worker) => { worker.process.setMaxListeners(Infinity); });
+	cluster.once("exit", (worker, code, signal) => { console.log(`Worker ${worker.id} exited with code ${code} and signal ${signal}`); });
 	for (let i = 0; i < os.cpus().length; i++) {
 		console.log(`Forking worker threads ${i + 1}/${os.cpus().length}`);
 		cluster.fork();
@@ -41,7 +41,7 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => {
 	let query = request.query as any;
 	for (let i = 0; i < cache.length; i++) {
 		if (JSON.stringify(cache[i].query) === JSON.stringify(query)) {
-			console.log(`Found ${query?.name} in cache - ${cache.length} items remaining in cache`);
+			console.log(`Found ${query?.name} in cache - ${cache.length + 1} items remaining in cache`);
 			return reply.header("Content-Type", "image/png").header("X-Completed-In", Date.now() - startTimer).header("X-Returned-Cache", true).send(cache[i].buffer);
 		}
 	}
@@ -92,7 +92,7 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => {
 		canvasBuffer = await render(query?.name, width, height, wh, mag, blockSize, colour);
 	}
 
-	console.log(`Adding ${query?.name} to cache - ${cache.length} items remaining in cache`);
+	console.log(`Adding ${query?.name} to cache - ${cache.length + 1} items remaining in cache`);
 	cache.push({ query: query, buffer: canvasBuffer });
 	setTimeout(() => {
 		for (let i = 0; i < cache.length; i++) {
@@ -101,7 +101,7 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => {
 				break;
 			}
 		}
-		console.log(`Removed ${query?.name} from cache - ${cache.length} items remaining in cache`);
+		console.log(`Removed ${query?.name} from cache - ${cache.length + 1} items remaining in cache`);
 	}, cacheRemovalTimer);
 	console.log(`Completed in ${Date.now() - startTimer}ms`);
 	reply.header("Content-Type", "image/png").header("X-Completed-In", Date.now() - startTimer);
