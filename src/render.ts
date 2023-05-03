@@ -25,7 +25,7 @@ export default async function render(name: any, width: number, height: number, w
 	let binaryNoSpace = binary.join("");
 	let binaryArray = [];
 	for (let i = 0; i < binaryNoSpace.length; i++) {
-		if (i > 1) { // this fixes a bug where the first 2 bits are always 1
+		if (i > 1) { // this "fixes" a bug where the first 2 bits are always 1
 			binaryArray.push(binaryNoSpace[i]);
 		}
 	}
