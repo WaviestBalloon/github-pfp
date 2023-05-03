@@ -53,12 +53,10 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // 
 	let width = (wh * mag) / blockSize; // TODO: refactor this area, cut down on variables
 	let height = (wh * mag) / blockSize;
 	console.log(width, height);
-
 	if (wh * mag > 10000) {
 		return reply.code(400).send(`Width/Height and/or Magnification collectively exceeds 10000 pixels (${wh * mag}) (Try lowering your magnification or width/height, or both)`);
 	}
 	
-	console.log(query?.name, width, height, wh, mag, blockSize, colour)
 	let buffer = await render(query?.name, width, height, wh, mag, blockSize, colour);
 
 	cache.push({ query: query, buffer: buffer });
@@ -87,6 +85,7 @@ server.get("/", async (request: FastifyRequest, reply: FastifyReply) => {
 
 	reply.header("Content-Type", "text/json").send({
 		"randomExample": example,
+		"randomPfpEndpoint": `/pfp`,
 		"query": {
 			"name": "string",
 			"mag": "number",
