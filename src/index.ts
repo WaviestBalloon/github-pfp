@@ -1,9 +1,9 @@
 import fastify, { FastifyRequest, FastifyReply } from "fastify";
-import { Canvas } from "canvas";
-import { createHash } from "crypto";
 import { readFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
+
+import render from "./render.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -20,14 +20,6 @@ process.argv.forEach((val, index) => {
 		default: return;
 	}
 });
-
-function toBinary(str: string) {
-	let result = "";
-	for (let i = 0; i < str.length; i++) {
-		result += str.charCodeAt(i).toString(2) + " ";
-	}
-	return result.slice(0, -1);
-}
 
 server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // TODO: caching rendered images
 	let startTimer = Date.now();
@@ -65,48 +57,10 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => { // 
 	if (wh * mag > 10000) {
 		return reply.code(400).send(`Width/Height and/or Magnification collectively exceeds 10000 pixels (${wh * mag}) (Try lowering your magnification or width/height, or both)`);
 	}
-	let canvas = null;
-	try {
-		canvas = new Canvas(wh * mag, wh * mag);
-	} catch (err) {
-		console.error(err);
-		return reply.code(400).send("Could not create canvas, check your magnification and width/height");
-	}
-	const ctx = canvas.getContext("2d");
-	ctx.fillStyle = "#000000";
 	
-	let hash = createHash("md5").update(query.name).digest("hex");
-	let binary = toBinary(hash).split(" ");
-	let binaryNoSpace = binary.join("");
-	let binaryArray = [];
-	for (let i = 0; i < binaryNoSpace.length; i++) {
-		binaryArray.push(binaryNoSpace[i]);
-	}
-	console.log(binaryArray);
+	console.log(query?.name, width, height, wh, mag, blockSize, colour)
+	let buffer = await render(query?.name, width, height, wh, mag, blockSize, colour);
 
-	if (colour === null) {
-		for (let i = 0; i < hash.length; i++) { // colour
-			if (i === 6) break;
-			let colour = parseInt(hash[i], 16);
-			ctx.fillStyle = `hsl(${colour * 10}, 100%, 50%)`;
-		}
-	} else {
-		ctx.fillStyle = `#${colour}`;
-	}
-	for (let i = 0; i < height * (width / 2); i++) { // draw pixels
-		if (binaryArray[i] === "1") {
-			ctx.fillRect(
-				(i % (width / 2)) * blockSize, Math.floor(i / (width / 2)) * blockSize,
-				blockSize, blockSize
-			);
-			ctx.fillRect(
-				(width - 1 - (i % (width / 2))) * blockSize, Math.floor(i / (width / 2)) * blockSize,
-				blockSize, blockSize
-			);
-		}
-	}
-
-	const buffer = canvas.toBuffer();
 	cache.push({ query: query, buffer: buffer });
 	setTimeout(() => {
 		for (let i = 0; i < cache.length; i++) {
