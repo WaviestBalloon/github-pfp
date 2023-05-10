@@ -6,7 +6,7 @@ An attempt to replicate GitHub's default profile pictures in under 100 lines (ex
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.3&name=installation"> Installation
 1. Clone the repository
 2. Run `npm i` to install dependencies
-3. Run `./start.sh` to transpile and start the server
+3. Run `./start.sh` to transpile and start the server (This will rebuild the source if it is daemonized) or run `npm run build` then `npm run start` to start it
 
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.3&name=usage"> Usage
 Go to the root of the server (default: `localhost:3000`) for usage instructions after running the server
