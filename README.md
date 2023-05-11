@@ -6,12 +6,21 @@ An attempt to replicate GitHub's default profile pictures in under 100 lines (ex
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.3&name=installation"> Installation
 1. Clone the repository
 2. Run `npm i` to install dependencies
-3. Run `./start.sh` to transpile and start the server (This will rebuild the source if it is daemonized) or run `npm run build` then `npm run start` to start it
+3. Run `./start.sh` to transpile and start the server (This will rebuild the source if it is daemonized)
 
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.3&name=usage"> Usage
 Go to the root of the server (default: `localhost:3000`) for usage instructions after running the server
 
-Just using `/pfp` (like: http://gitpfp.wav.blue/pfp ) without any parameters will generate a random string with 60 `wh` (6 pixels across and down) and 10 magnification
+### <img src="https://gitpfp.wav.blue/pfp?mag=0.24&name=server parameters"> Server parameters
+The default launch parameters specified in `start.sh` are: `node . --port 3000 --cache-removal-timer 285000 --use-cluster true`
+
+| Parameter                       | What it does                                                                                                                  |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `--port`: Number                | Tells Fastify what port to run the webserver on, default: `3000`                                                              |
+| `--cache-removal-timer`: Number | Time in milliseconds to remove cached rendered profile pictures, default: `285000` (4.75 minutes)                             |
+| `--use-cluster`: Boolean        | Enables/Disables Node.js workers/cluster, it has been implemented to spread render requests across CPU cores, default: `true` |
+
+Just appending `/pfp` onto the root URL (like: http://gitpfp.wav.blue/pfp / http://127.0.0.1:3000/pfp ) without any parameters will generate a random string with 60 `wh` (6 pixels across and down) and 10 magnification
 
 - `name` - The text to base the profile picture on
 - `mag` - Image magnification of the output image
