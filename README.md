@@ -11,7 +11,7 @@ An attempt to replicate GitHub's default profile pictures in under 100 lines (ex
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.3&name=usage"> Usage
 Go to the root of the server (default: `localhost:3000`) for usage instructions after running the server
 
-### <img src="https://gitpfp.wav.blue/pfp?mag=0.24&name=server parameters"> Server parameters
+### <img src="https://gitpfp.wav.blue/pfp?mag=0.3&name=server parameters"> Server parameters
 The default launch parameters specified in `start.sh` are: `node . --port 3000 --cache-removal-timer 285000 --use-cluster true`
 
 | Parameter                       | What it does                                                                                                                  |
