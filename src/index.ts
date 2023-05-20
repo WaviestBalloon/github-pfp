@@ -19,17 +19,16 @@ let cache: { query: any, buffer: Buffer; }[] = [];
 process.argv.forEach((val, index) => {
 	if (index < 2) return;
 	switch (val) {
-		case "--port": portNumber = parseInt(process.argv[index + 1]);
-		case "--cache-removal-timer": cacheRemovalTimer = parseInt(process.argv[index + 1]);
-		case "--use-cluster": enableMultiThread = process.argv[index + 1] === "true" ? true : false;
-		default: return;
+		case "--port": portNumber = parseInt(process.argv[index + 1]); break;
+		case "--cache-removal-timer": cacheRemovalTimer = parseInt(process.argv[index + 1]); break;
+		case "--use-cluster": enableMultiThread = process.argv[index + 1] === "true" ? true : false; break;
+		default: if (val.startsWith("--")) console.warn(`Unknown argument: ${val}, ignoring...`); break;
 	}
 });
 
 if (enableMultiThread && cluster.isPrimary) {
 	cluster.setupPrimary({ exec: join(__dirname, "worker.js") });
-	cluster.on("online", (worker) => { worker.process.setMaxListeners(Infinity); });
-	cluster.once("exit", (worker, code, signal) => { console.log(`Worker ${worker.id} exited with code ${code} and signal ${signal}`); });
+	cluster.once("exit", (worker, code, signal) => { console.warn(`Worker ${worker.id} exited with code ${code} and signal ${signal} - The worker will not be reinstated!`); });
 	for (let i = 0; i < os.cpus().length; i++) {
 		console.log(`Forking worker threads ${i + 1}/${os.cpus().length}`);
 		cluster.fork();
