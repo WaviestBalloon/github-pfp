@@ -41,7 +41,7 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => {
 	for (let i = 0; i < cache.length; i++) {
 		if (JSON.stringify(cache[i].query) === JSON.stringify(query)) {
 			console.log(`Found ${query?.name} in cache - ${cache.length + 1} items remaining in cache`);
-			return reply.header("Content-Type", "image/png").header("X-Completed-In", Date.now() - startTimer).header("X-Returned-Cache", true).send(cache[i].buffer);
+			return reply.header("Content-Type", "image/png").header("X-Completed-In", Date.now() - startTimer).header("X-Returned-Cache", true).code(304).send(cache[i].buffer);
 		}
 	}
 	if (query?.name === undefined) query.name = (Math.random() * 1000000).toString(36).substring(7);
