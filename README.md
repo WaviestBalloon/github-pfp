@@ -30,7 +30,7 @@ Just appending `/pfp` onto the root URL (like: http://gitpfp.wav.blue/pfp / http
 - `wh` - Width and Height value of the output image
 - `colour` - Hexadecimal colour code for the pixels of the output image (Without `#`, e.g. `?colour=e8c8e8`)
 
-> **Note**:
+> [!NOTE]
 > For the best output, make sure `mag` and `wh` are even numbers (like `20` not `27`, `39`, `15.323421` etc)
 
 ## <img src="https://gitpfp.wav.blue/pfp?mag=0.3&name=examples"> Examples
