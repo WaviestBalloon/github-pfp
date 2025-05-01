@@ -29,7 +29,7 @@ export default async function render(name: any, width: number, height: number, w
 			binaryArray.push(binaryNoSpace[i]);
 		}
 	}
-	console.log(binaryArray);
+	console.log(`Binary array length: ${binaryArray.length}`);
 
 	if (colour === null) {
 		for (let i = 0; i < hash.length; i++) { // colour

@@ -1,6 +1,12 @@
-# Purge dist folder
-rm -rf dist
-# Build server
+#!/bin/bash
+set -e
+
+# Purge dist folder if it exists
+if [ -d "dist" ]; then
+	rm -r dist
+fi
+
+# Build server npx
 npx tsc
 
 # Run server

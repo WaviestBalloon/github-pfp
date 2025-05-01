@@ -36,7 +36,7 @@ if (enableMultiThread && cluster.isPrimary) {
 }
 
 server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => {
-	let startTimer = Date.now();
+	const startTimer = Date.now();
 	let query = request.query as any;
 	for (let i = 0; i < cache.length; i++) {
 		if (JSON.stringify(cache[i].query) === JSON.stringify(query)) {
@@ -45,7 +45,7 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => {
 		}
 	}
 	if (query?.name === undefined) query.name = (Math.random() * 1000000).toString(36).substring(7);
-	console.log(query);
+	console.log(JSON.stringify(query));
 
 	let mag = query?.mag ?? 10;
 	if (mag > 100) {
@@ -63,10 +63,9 @@ server.get("/pfp", async (request: FastifyRequest, reply: FastifyReply) => {
 		}
 	}
 
-	let blockSize = 10 * mag;
-	let width = (wh * mag) / blockSize; // TODO: refactor this area, cut down on variables
-	let height = (wh * mag) / blockSize;
-	console.log(width, height);
+	const blockSize = 10 * mag;
+	const width = (wh * mag) / blockSize; // TODO: refactor this area, cut down on variables
+	const height = (wh * mag) / blockSize;
 	if (wh * mag > 10000) {
 		return reply.code(400).send(`Width/Height and/or Magnification collectively exceeds 10000 pixels (${wh * mag}) (Try lowering your magnification or width/height, or both)`);
 	}
@@ -118,7 +117,7 @@ server.get("/", async (request: FastifyRequest, reply: FastifyReply) => {
 		example = `/pfp?name=${randomName}&mag=${randomMag}&wh=${randomWh}`;
 	}
 
-	reply.header("Content-Type", "text/json").send({
+	reply.header("Content-Type", "application/json").send({
 		"randomExample": example,
 		"randomPfpEndpoint": `/pfp`,
 		"query": {
